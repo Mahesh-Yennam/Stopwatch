@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #1c1c1c;
+      /* color: white; */
+      font-family: Arial, sans-serif;
+    }
+
+    .stopwatch {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      align-content: center;
+      text-align: center;
+      font-size: 40px;
+      background-color: whitesmoke;
+    }
+
+    .buttons {
+      width: 300px;
+      height: 100px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    button {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      /* border: none; */
+      /* background-color: #4CAF50; */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stopwatch">00:00:00</div>
+  <div class="buttons">
+    <button class="start" onclick="startWatch()">&#9654;</button>
+    <button onclick="location.reload();"> <i class="fa fa-refresh"></i></button>
+  </div>
+
+  <script>
+    const stopwatchElement = document.querySelector('.stopwatch');
+
+    let seconds = 0;
+    let minutes = 0;
+    let hours = 0;
+    let interval = null;  // store setInterval ID
+    let running = false;  // toggle state
+
+    function startWatch() {
+      if (!running) {
+        // START
+        running = true;
+        document.querySelector('.start').innerHTML = "&#x23F8;";
+
+        interval = setInterval(() => {
+          seconds++;
+          if (seconds === 60) {
+            seconds = 0;
+            minutes++;
+          }
+          if (minutes === 60) {
+            minutes = 0;
+            hours++;
+          }
+
+          const formattedTime =
+            hours.toString().padStart(2, '0') + ':' +
+            minutes.toString().padStart(2, '0') + ':' +
+            seconds.toString().padStart(2, '0');
+
+          stopwatchElement.textContent = formattedTime;
+        }, 1000);
+      } else {
+        // PAUSE
+        running = false;
+        document.querySelector('.start').innerHTML = "&#9654;";
+        clearInterval(interval);
+      }
+    }
+  </script>
+
+</body>
+
+</html>
